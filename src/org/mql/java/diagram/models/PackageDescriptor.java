@@ -12,7 +12,7 @@ public class PackageDescriptor {
     private Set<String> annotations;
     private Set<PackageDescriptor> subPackages;
 
-    public PackageDescriptor(String packageName) {
+    public PackageDescriptor(String packageName, List<ClassDescriptor> classes) {
         this.packageName = packageName;
         this.classNames = new HashSet<>();
         this.interfaceNames = new HashSet<>();
@@ -21,12 +21,18 @@ public class PackageDescriptor {
         this.enums = new HashSet<>();
         this.annotations = new HashSet<>();
         this.subPackages = new HashSet<>();
+        setClasses(classes);  // Appel à la méthode pour ajouter les classes à partir de la liste
     }
+
 
     public void addClass(ClassDescriptor classDescriptor) {
         classNames.add(classDescriptor.getClassName());
     }
 
+    public void addUsedClass(String className) {
+        usedClasses.add(className);
+    }
+    
     public void addInterface(InterfaceDescriptor interfaceDescriptor) {
         interfaceNames.add(interfaceDescriptor.getClassName());
     }
@@ -49,6 +55,7 @@ public class PackageDescriptor {
         System.out.println("Interfaces: " + interfaceNames);
         System.out.println("Enums: " + enums);
         System.out.println("Annotations: " + annotations);
+        
         for (PackageDescriptor subPackage : subPackages) {
             subPackage.display(); 
         }

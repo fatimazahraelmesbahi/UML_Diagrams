@@ -46,7 +46,7 @@ public class ProjectAnalyzer {
     public PackageDescriptor analyzePackage(String packageName) {
         Path packagePath = resolvePackagePath(packageName);
         if (Files.exists(packagePath) && Files.isDirectory(packagePath)) {
-            PackageDescriptor packageDescriptor = new PackageDescriptor(packageName);
+            PackageDescriptor packageDescriptor = new PackageDescriptor(packageName, null);
             List<ClassDescriptor> classes = new ArrayList<>();
             List<InterfaceDescriptor> interfaces = new ArrayList<>();
             List<AnnotationDescriptor> annotations = new ArrayList<>();

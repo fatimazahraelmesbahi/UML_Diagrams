@@ -9,6 +9,10 @@ public class ProjectDescriptor {
     public ProjectDescriptor() {
         this.packages = new ArrayList<>();
     }
+    
+    public ProjectDescriptor(List<PackageDescriptor> packages) {
+        this.packages = packages;
+    }
 
     public void addPackage(PackageDescriptor packageDescriptor) {
         this.packages.add(packageDescriptor);

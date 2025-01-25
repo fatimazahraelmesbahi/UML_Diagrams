@@ -1,13 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <XMI>
-    <Class accessModifiers="" name="">
+    <Class accessModifiers="public abstract interface" name="Person">
         <Fields/>
-        <Methods/>
-        <Relationships/>
+        <Methods>
+            <Method>+ getName()</Method>
+            <Method>+ getAge()</Method>
+        </Methods>
+        <Relationships>
+            <Relationship to="String" type="Use"/>
+        </Relationships>
     </Class>
-    <Class accessModifiers="" name="">
-        <Fields/>
-        <Methods/>
-        <Relationships/>
+    <Class accessModifiers="public" name="Employee">
+        <Fields>
+            <Field>-employeeId : String</Field>
+            <Field>-salary : double</Field>
+            <Field>-employeeType : EmployeeType</Field>
+        </Fields>
+        <Methods>
+            <Method>+ getName()</Method>
+            <Method>+ getSalary()</Method>
+            <Method>+ getAge()</Method>
+            <Method>+ getEmployeeType()</Method>
+            <Method>+ getEmployeeId()</Method>
+        </Methods>
+        <Relationships>
+            <Relationship to="String" type="Aggregation"/>
+            <Relationship to="EmployeeType" type="Aggregation"/>
+            <Relationship to="Person" type="Implementation"/>
+            <Relationship to="Person" type="Implementation"/>
+            <Relationship to="Person" type="Implementation"/>
+            <Relationship to="Person" type="Implementation"/>
+            <Relationship to="Person" type="Implementation"/>
+            <Relationship to="Object" type="Inheritance"/>
+        </Relationships>
     </Class>
 </XMI>

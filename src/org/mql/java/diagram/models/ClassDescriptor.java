@@ -23,6 +23,7 @@ public class ClassDescriptor {
         this.fields = new ArrayList<>();
         this.methods = new ArrayList<>();
         this.relationships = new ArrayList<>();
+        this.name = classPath;
         
         try {
             Class<?> cls = Class.forName(classPath);
@@ -32,12 +33,9 @@ public class ClassDescriptor {
             this.fields = getFieldDescriptors(cls);
             this.methods = getMethodDescriptors(cls);
             analyzeRelations(cls);
-            
-            // Affichage des informations sous forme de diagramme UML
             printUML();
-            
         } catch (ClassNotFoundException e) {
-            System.err.println("Erreur : La classe " + classPath + " n'a pas été trouvée.");
+            System.err.println("Error: Class " + classPath + " not found.");
             e.printStackTrace();
         }
     }
@@ -63,10 +61,23 @@ public class ClassDescriptor {
     private List<String> getMethodDescriptors(Class<?> cls) {
         List<String> methodList = new ArrayList<>();
         for (Method method : cls.getDeclaredMethods()) {
-            StringBuilder methodInfo = new StringBuilder("+ " + method.getName() + "()");
+            StringBuilder methodInfo = new StringBuilder(getMethodVisibility(method) + " " + method.getName() + "()");
             methodList.add(methodInfo.toString());
         }
         return methodList;
+    }
+
+    private String getMethodVisibility(Method method) {
+        int modifiers = method.getModifiers();
+        if (Modifier.isPublic(modifiers)) {
+            return "+";
+        } else if (Modifier.isPrivate(modifiers)) {
+            return "-";
+        } else if (Modifier.isProtected(modifiers)) {
+            return "#";
+        } else {
+            return "~"; // default to package-private
+        }
     }
 
     private void analyzeRelations(Class<?> cls) {
@@ -109,15 +120,13 @@ public class ClassDescriptor {
     }
 
     private void printUML() {
-        // Affichage des informations sous forme de diagramme UML
         System.out.println("Class: " + name + " {");
         fields.forEach(field -> System.out.println("\t" + field));
         methods.forEach(method -> System.out.println("\t" + method));
         System.out.println("}");
 
-        // Affichage des relations
         relationships.forEach(relationship -> {
-        	System.out.println(relationship.getFrom() + " -- " + relationship.getTo() + " : " + relationship.getRelationshipType());
+            System.out.println(relationship.getFrom() + " -- " + relationship.getTo() + " : " + relationship.getRelationshipType());
         });
     }
 
@@ -128,7 +137,7 @@ public class ClassDescriptor {
     public String getClassName() {
         return name;
     }
-    
+
     public String getAccessModifiers() {
         return accessModifiers;
     }

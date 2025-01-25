@@ -28,7 +28,7 @@ public class XMLParser {
                 if (packageNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element packageElement = (Element) packageNode;
                     String packageName = packageElement.getAttribute("name");
-                    PackageDescriptor packageDescriptor = new PackageDescriptor(packageName);
+                    PackageDescriptor packageDescriptor = new PackageDescriptor(packageName, null);
 
                     // Parsing des classes
                     NodeList classNodes = packageElement.getElementsByTagName("class");
