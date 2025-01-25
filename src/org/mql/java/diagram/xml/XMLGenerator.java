@@ -1,4 +1,4 @@
-package org.mql.java.diagram.generator;
+package org.mql.java.diagram.xml;
 
 import org.mql.java.diagram.models.ClassDescriptor;
 import org.mql.java.diagram.models.Relationship;

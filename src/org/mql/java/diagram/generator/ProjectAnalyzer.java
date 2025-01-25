@@ -8,6 +8,8 @@ import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import javax.swing.JOptionPane;
+
 public class ProjectAnalyzer {
 
     private final String rootPackage;
@@ -27,21 +29,65 @@ public class ProjectAnalyzer {
                 .collect(Collectors.toList());
     }
 
-    public Map<String, List<ClassDescriptor>> groupClassesByPackage() {
-        Map<String, List<ClassDescriptor>> classesGroupedByPackage = new HashMap<>();
+    private void generateClassDiagram(String packageName) {
+        ProjectAnalyzer analyzer = new ProjectAnalyzer("org.mql.java");
+        PackageDescriptor packageDescriptor = analyzer.analyzePackage(packageName);
 
-        traverseProjectFiles().forEach(file -> {
-            if (file.getName().endsWith(".java")) {
-                String packageName = derivePackageName(file);
-                String fullClassName = generateFullClassName(file.toPath());  // Converti en Path
-                classesGroupedByPackage
-                        .computeIfAbsent(packageName, k -> new ArrayList<>())
-                        .add(new ClassDescriptor(fullClassName));
+        if (packageDescriptor != null) {
+            List<ClassDescriptor> classDescriptors = packageDescriptor.getClasses();
+            // Pass these class descriptors to your diagram generation code
+            System.out.println("Generating diagram for package: " + packageName);
+            for (ClassDescriptor classDescriptor : classDescriptors) {
+                System.out.println(classDescriptor); // Debugging purpose
             }
-        });
-
-        return classesGroupedByPackage;
+        } else {
+            JOptionPane.showMessageDialog(null, this, "No classes found in the package: " + packageName, 0);
+        }
     }
+
+    public ProjectDescriptor analyzeProject() {
+        // Simulate project analysis (this should include real analysis logic)
+        ProjectDescriptor projectDescriptor = new ProjectDescriptor();
+
+        // Example: Add dummy packages and classes for demonstration
+        PackageDescriptor package1 = new PackageDescriptor("com.example.package1", List.of(
+            new ClassDescriptor("ClassA"),
+            new ClassDescriptor("ClassB")
+        ));
+        package1.addUsedClass("com.example.package2.ClassC");
+
+        PackageDescriptor package2 = new PackageDescriptor("com.example.package2", List.of(
+            new ClassDescriptor("ClassC"),
+            new ClassDescriptor("ClassD")
+        ));
+
+        projectDescriptor.addPackage(package1);
+        projectDescriptor.addPackage(package2);
+
+        return projectDescriptor;
+    }
+    
+    public List<String> getPackages() {
+        List<String> packages = new ArrayList<>();
+        Path projectRoot = Paths.get("src", rootPackage.replace('.', File.separatorChar));
+
+        try {
+            Files.walk(projectRoot)
+                    .filter(Files::isDirectory)
+                    .forEach(dir -> {
+                        String packagePath = dir.toString().replace(File.separatorChar, '.');
+                        if (packagePath.contains(rootPackage)) {
+                            String packageName = packagePath.substring(packagePath.indexOf(rootPackage));
+                            packages.add(packageName);
+                        }
+                    });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return packages;
+    }
+
 
     public PackageDescriptor analyzePackage(String packageName) {
         Path packagePath = resolvePackagePath(packageName);

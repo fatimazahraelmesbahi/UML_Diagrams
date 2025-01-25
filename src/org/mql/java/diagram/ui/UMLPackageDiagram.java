@@ -10,8 +10,8 @@ import java.util.List;
 public class UMLPackageDiagram extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    private ProjectDescriptor projectDescriptor; // L'architecture globale du projet
-    private Map<String, Point> packagePositions; // Pour le positionnement des packages
+    private ProjectDescriptor projectDescriptor; // Architecture globale du projet
+    private Map<String, Point> packagePositions; // Positions des packages sur le diagramme
 
     public UMLPackageDiagram(ProjectDescriptor projectDescriptor) {
         this.projectDescriptor = projectDescriptor;
@@ -30,6 +30,9 @@ public class UMLPackageDiagram extends JPanel {
         drawPackageRelationships(graphics);
     }
 
+    /**
+     * Positionne les packages sur le diagramme de manière circulaire.
+     */
     private void layoutPackages(Graphics2D graphics) {
         int centerX = getWidth() / 2;
         int centerY = getHeight() / 2;
@@ -42,28 +45,31 @@ public class UMLPackageDiagram extends JPanel {
         for (PackageDescriptor packageDescriptor : projectDescriptor.getPackages()) {
             String packageName = packageDescriptor.getPackageName();
             List<ClassDescriptor> classes = new ArrayList<>();
+
             for (String className : packageDescriptor.getClassNames()) {
-                // Créer des ClassDescriptors ou les récupérer
                 classes.add(new ClassDescriptor(className));
             }
 
             double angle = i * angleStep;
-            int x = (int) (centerX + radius * Math.cos(angle)) - 75;  // Ajustez la position pour le centrage
-            int y = (int) (centerY + radius * Math.sin(angle)) - 50;  // Ajustez la position pour le centrage
+            int x = (int) (centerX + radius * Math.cos(angle)) - 75;  // Ajustement pour centrer le package
+            int y = (int) (centerY + radius * Math.sin(angle)) - 50;
 
-            packagePositions.put(packageName, new Point(x, y));  // Enregistrer la position du package
+            packagePositions.put(packageName, new Point(x, y));
             drawPackage(graphics, packageName, classes, new Point(x, y));
             i++;
         }
     }
 
+    /**
+     * Dessine un package sur le diagramme UML.
+     */
     private void drawPackage(Graphics2D graphics, String packageName, List<ClassDescriptor> classes, Point position) {
         int width = 200;
         int height = 150;
         int x = position.x;
         int y = position.y;
 
-        graphics.setColor(new Color(240, 240, 255)); // Couleur bleue claire pour le package
+        graphics.setColor(new Color(240, 240, 255)); // Couleur de fond du package
         graphics.fillRect(x, y, width, height);
         graphics.setColor(Color.BLACK);
         graphics.drawRect(x, y, width, height);
@@ -71,7 +77,7 @@ public class UMLPackageDiagram extends JPanel {
         graphics.setFont(new Font("SansSerif", Font.BOLD, 14));
         graphics.drawString(packageName, x + 10, y + 20);
 
-        // Dessiner les classes à l'intérieur du package
+        // Dessiner les classes dans le package
         int classY = y + 30;
         for (ClassDescriptor classDescriptor : classes) {
             graphics.setFont(new Font("SansSerif", Font.PLAIN, 12));
@@ -80,14 +86,16 @@ public class UMLPackageDiagram extends JPanel {
         }
     }
 
+    /**
+     * Dessine les relations entre les packages.
+     */
     private void drawPackageRelationships(Graphics2D graphics) {
-        // Dessiner les relations entre les packages (en fonction de l'utilisation des classes)
         for (PackageDescriptor packageDescriptor : projectDescriptor.getPackages()) {
             String packageName = packageDescriptor.getPackageName();
             for (String usedClass : packageDescriptor.getUsedClasses()) {
                 Point from = packagePositions.get(packageName);
-                // Vous pouvez maintenant récupérer la position de l'autre package (ou classe)
                 Point to = findPackagePositionByClassName(usedClass);
+
                 if (from != null && to != null) {
                     drawRelationshipLine(graphics, from, to);
                 }
@@ -95,10 +103,11 @@ public class UMLPackageDiagram extends JPanel {
         }
     }
 
+    /**
+     * Trouve la position d'un package en fonction du nom de la classe utilisée.
+     */
     private Point findPackagePositionByClassName(String className) {
-        // Cette méthode doit retourner la position du package qui contient cette classe
         for (Map.Entry<String, Point> entry : packagePositions.entrySet()) {
-            // Logique pour trouver le package contenant la classe
             if (className.contains(entry.getKey())) {
                 return entry.getValue();
             }
@@ -106,15 +115,19 @@ public class UMLPackageDiagram extends JPanel {
         return null;
     }
 
+    /**
+     * Dessine une ligne représentant une relation entre deux packages.
+     */
     private void drawRelationshipLine(Graphics2D graphics, Point from, Point to) {
-        // Dessiner une ligne entre les packages pour représenter une relation
         graphics.setColor(Color.BLACK);
-        graphics.drawLine(from.x + 100, from.y + 75, to.x + 100, to.y + 75); // Alignement au centre des boîtes
-        drawArrow(graphics, from, to);  // Dessiner la flèche de relation
+        graphics.drawLine(from.x + 100, from.y + 75, to.x + 100, to.y + 75); // Ligne centrée
+        drawArrow(graphics, from, to);  // Dessiner une flèche
     }
 
+    /**
+     * Dessine une flèche entre deux points pour représenter une relation.
+     */
     private void drawArrow(Graphics2D graphics, Point from, Point to) {
-        // Calculer l'angle de la flèche
         int arrowSize = 10;
         double angle = Math.atan2(to.y - from.y, to.x - from.x);
 
@@ -125,6 +138,6 @@ public class UMLPackageDiagram extends JPanel {
         int y2 = to.y - (int) (arrowSize * Math.sin(angle + Math.PI / 6));
 
         Polygon arrowHead = new Polygon(new int[]{to.x, x1, x2}, new int[]{to.y, y1, y2}, 3);
-        graphics.fillPolygon(arrowHead);  // Remplir la flèche pour la rendre solide
+        graphics.fillPolygon(arrowHead);
     }
 }

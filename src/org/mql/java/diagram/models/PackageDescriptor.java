@@ -11,6 +11,7 @@ public class PackageDescriptor {
     private Set<String> enums;
     private Set<String> annotations;
     private Set<PackageDescriptor> subPackages;
+    private List<ClassDescriptor> classes; 
 
     public PackageDescriptor(String packageName, List<ClassDescriptor> classes) {
         this.packageName = packageName;
@@ -21,12 +22,24 @@ public class PackageDescriptor {
         this.enums = new HashSet<>();
         this.annotations = new HashSet<>();
         this.subPackages = new HashSet<>();
-        setClasses(classes);  // Appel à la méthode pour ajouter les classes à partir de la liste
+        this.classes = new ArrayList<>(); // Initialize the list of ClassDescriptor objects
+        setClasses(classes); // Add classes from the provided list
     }
-
 
     public void addClass(ClassDescriptor classDescriptor) {
         classNames.add(classDescriptor.getClassName());
+        classes.add(classDescriptor); // Store the ClassDescriptor object
+    }
+
+    public List<ClassDescriptor> getClasses() {
+        return classes; // Return the list of ClassDescriptor objects
+    }
+
+    public void setClasses(List<ClassDescriptor> classes) {
+        for (ClassDescriptor classDescriptor : classes) {
+            classNames.add(classDescriptor.getClassName());
+            this.classes.add(classDescriptor); // Store the ClassDescriptor object
+        }
     }
 
     public void addUsedClass(String className) {
@@ -91,12 +104,6 @@ public class PackageDescriptor {
 
     public Set<PackageDescriptor> getSubPackages() {
         return subPackages;
-    }
-
-    public void setClasses(List<ClassDescriptor> classes) {
-        for (ClassDescriptor classDescriptor : classes) {
-            classNames.add(classDescriptor.getClassName());
-        }
     }
 
     public void setInterfaces(List<InterfaceDescriptor> interfaces) {

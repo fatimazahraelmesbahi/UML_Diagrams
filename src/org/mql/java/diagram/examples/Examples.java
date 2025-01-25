@@ -2,22 +2,26 @@ package org.mql.java.diagram.examples;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 
 import org.mql.java.diagram.generator.ProjectAnalyzer;
-import org.mql.java.diagram.generator.XMIGenerator;
-import org.mql.java.diagram.generator.XMLGenerator;
 import org.mql.java.diagram.models.ClassDescriptor;
 import org.mql.java.diagram.models.PackageDescriptor;
 import org.mql.java.diagram.models.ProjectDescriptor;
 import org.mql.java.diagram.ui.UMLDiagram;
 import org.mql.java.diagram.ui.UMLPackageDiagram;
+import org.mql.java.diagram.xml.XMIGenerator;
+import org.mql.java.diagram.xml.XMLGenerator;
 
 public class Examples {
 	public Examples() {
-		exp05();
+		exp01();
 	}
 
 	public void exp01() {
@@ -54,21 +58,44 @@ public class Examples {
         System.out.println("Le fichier XMI a été généré avec succès à l'emplacement : " + outputPath);
 	}
 	
-	public void exp04() {
-		String rootPackage = "org.mql.java.diagram.examples";
+/*	public void exp04() {
+	    String rootPackage = "org.mql.java.diagram.examples";
 
-        ProjectAnalyzer analyzer = new ProjectAnalyzer(rootPackage);
-        List<ClassDescriptor> classDescriptors = analyzer.findAllClasses(); 
+	    try {
+	        ProjectAnalyzer analyzer = new ProjectAnalyzer(rootPackage);
 
-        JFrame frame = new JFrame("UML Diagram");
-        UMLDiagram umlDiagram = new UMLDiagram("UML Diagram of Project", classDescriptors);
+	        List<ClassDescriptor> classDescriptors = analyzer.findAllClasses();
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add(umlDiagram);
-        frame.pack();
-        frame.setVisible(true);
+	        Map<String, List<ClassDescriptor>> packagesMap = new HashMap<>();
+
+	        for (ClassDescriptor classDescriptor : classDescriptors) {
+	            String packageName = classDescriptor.getPackageName();
+	            packagesMap.computeIfAbsent(packageName, k -> new ArrayList<>()).add(classDescriptor);
+	        }
+
+	        UMLDiagram umlDiagram = new UMLDiagram("UML Diagram of " + rootPackage, packagesMap);
+
+	        JFrame frame = new JFrame("UML Diagram");
+	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+	        JScrollPane scrollPane = new JScrollPane(umlDiagram);
+	        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+	        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+	        frame.getContentPane().add(scrollPane);
+
+	        frame.setSize(1200, 800); 
+	        frame.setLocationRelativeTo(null); 
+	        frame.setVisible(true);
+	    } catch (Exception e) {
+	        JOptionPane.showMessageDialog(null,
+	            "An error occurred while generating the UML diagram:\n" + e.getMessage(),
+	            "Error",
+	            JOptionPane.ERROR_MESSAGE);
+	        e.printStackTrace(); 
+	    }
 	}
-	
+*/
+
 	public void exp05() {
 		List<ClassDescriptor> classesPackageA = new ArrayList<>();
 	    ClassDescriptor class1 = new ClassDescriptor("org.mql.java.diagram.examples.Person");

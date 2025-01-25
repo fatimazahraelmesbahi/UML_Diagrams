@@ -5,6 +5,7 @@ import java.util.*;
 
 public class ClassDescriptor {
     private String name;
+    private String classPackageName; // Renommé pour éviter les conflits
     private String accessModifiers;
     private String parentClass;
     private List<String> fields;
@@ -24,10 +25,11 @@ public class ClassDescriptor {
         this.methods = new ArrayList<>();
         this.relationships = new ArrayList<>();
         this.name = classPath;
-        
+
         try {
             Class<?> cls = Class.forName(classPath);
-            this.name = cls.getSimpleName(); 
+            this.name = cls.getSimpleName();
+            this.classPackageName = cls.getPackageName(); // Récupère le nom du package directement
             this.accessModifiers = getAccessModifiers(cls);
             this.parentClass = getParentClass(cls);
             this.fields = getFieldDescriptors(cls);
@@ -40,6 +42,12 @@ public class ClassDescriptor {
         }
     }
 
+    // Nouvelle méthode corrigée pour retourner le nom du package
+    public String getPackageName() {
+        return classPackageName; // Retourne directement le champ sans récursivité
+    }
+
+    // Méthodes existantes (inchangées)...
     private String getAccessModifiers(Class<?> cls) {
         return Modifier.toString(cls.getModifiers());
     }
@@ -129,7 +137,7 @@ public class ClassDescriptor {
             System.out.println(relationship.getFrom() + " -- " + relationship.getTo() + " : " + relationship.getRelationshipType());
         });
     }
-
+    
     public String getName() {
         return name;
     }

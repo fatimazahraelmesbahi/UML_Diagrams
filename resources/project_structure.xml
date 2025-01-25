@@ -1,48 +1,88 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Project>
-    <Class accessModifiers="" name="">
-        <Fields/>
-        <Methods/>
-        <Relationships/>
+    <Class accessModifiers="public" name="Employee">
+        <Fields>
+            <Field>-employeeId : String</Field>
+            <Field>-salary : double</Field>
+            <Field>-employeeType : EmployeeType</Field>
+        </Fields>
+        <Methods>
+            <Method>+ getName()</Method>
+            <Method>+ getSalary()</Method>
+            <Method>+ getAge()</Method>
+            <Method>+ getEmployeeId()</Method>
+            <Method>+ getEmployeeType()</Method>
+        </Methods>
+        <Relationships>
+            <Relationship to="String" type="Aggregation"/>
+            <Relationship to="EmployeeType" type="Aggregation"/>
+            <Relationship to="Person" type="Implementation"/>
+            <Relationship to="Person" type="Implementation"/>
+            <Relationship to="Person" type="Implementation"/>
+            <Relationship to="Person" type="Implementation"/>
+            <Relationship to="Person" type="Implementation"/>
+            <Relationship to="Object" type="Inheritance"/>
+        </Relationships>
     </Class>
-    <Class accessModifiers="" name="">
-        <Fields/>
-        <Methods/>
-        <Relationships/>
+    <Class accessModifiers="public final" name="EmployeeType">
+        <ParentClass>Enum</ParentClass>
+        <Fields>
+            <Field>-FULL_TIME : EmployeeType</Field>
+            <Field>-PART_TIME : EmployeeType</Field>
+            <Field>-CONTRACT : EmployeeType</Field>
+            <Field>-ENUM$VALUES : EmployeeType[]</Field>
+        </Fields>
+        <Methods>
+            <Method>+ values()</Method>
+            <Method>+ valueOf()</Method>
+        </Methods>
+        <Relationships>
+            <Relationship to="EmployeeType" type="Aggregation"/>
+            <Relationship to="EmployeeType" type="Aggregation"/>
+            <Relationship to="EmployeeType" type="Aggregation"/>
+            <Relationship to="EmployeeType[]" type="Aggregation"/>
+            <Relationship to="String" type="Use"/>
+            <Relationship to="Enum" type="Inheritance"/>
+        </Relationships>
     </Class>
-    <Class accessModifiers="" name="">
+    <Class accessModifiers="public" name="Examples">
         <Fields/>
-        <Methods/>
-        <Relationships/>
+        <Methods>
+            <Method>+ main()</Method>
+            <Method>+ exp01()</Method>
+            <Method>+ exp03()</Method>
+            <Method>+ exp02()</Method>
+            <Method>+ exp05()</Method>
+        </Methods>
+        <Relationships>
+            <Relationship to="String[]" type="Use"/>
+            <Relationship to="Object" type="Inheritance"/>
+        </Relationships>
     </Class>
-    <Class accessModifiers="" name="">
-        <Fields/>
-        <Methods/>
-        <Relationships/>
+    <Class accessModifiers="public" name="Manager">
+        <ParentClass>Employee</ParentClass>
+        <Fields>
+            <Field>-bonus : double</Field>
+        </Fields>
+        <Methods>
+            <Method>+ toString()</Method>
+            <Method>+ getSalary()</Method>
+            <Method>+ getEmployeeId()</Method>
+            <Method>+ getBonus()</Method>
+        </Methods>
+        <Relationships>
+            <Relationship to="String" type="Use"/>
+            <Relationship to="Employee" type="Inheritance"/>
+        </Relationships>
     </Class>
-    <Class accessModifiers="" name="">
+    <Class accessModifiers="public abstract interface" name="Person">
         <Fields/>
-        <Methods/>
-        <Relationships/>
-    </Class>
-    <Class accessModifiers="" name="">
-        <Fields/>
-        <Methods/>
-        <Relationships/>
-    </Class>
-    <Class accessModifiers="" name="">
-        <Fields/>
-        <Methods/>
-        <Relationships/>
-    </Class>
-    <Class accessModifiers="" name="">
-        <Fields/>
-        <Methods/>
-        <Relationships/>
-    </Class>
-    <Class accessModifiers="" name="">
-        <Fields/>
-        <Methods/>
-        <Relationships/>
+        <Methods>
+            <Method>+ getName()</Method>
+            <Method>+ getAge()</Method>
+        </Methods>
+        <Relationships>
+            <Relationship to="String" type="Use"/>
+        </Relationships>
     </Class>
 </Project>
