@@ -15,8 +15,8 @@ public class UMLDiagram extends JPanel {
     private static final long serialVersionUID = 1L;
     private List<ClassDescriptor> umlClasses;
     private Map<String, Point> classPositionMap;
-    private JComboBox<String> packageComboBox; // ComboBox to select a package/project
-    private Map<String, List<ClassDescriptor>> packagesMap; // Map of packages and their classes
+    private JComboBox<String> packageComboBox; 
+    private Map<String, List<ClassDescriptor>> packagesMap; 
 	private String title;
 
 	public UMLDiagram(String title, List<ClassDescriptor> classDescriptors) {
@@ -37,20 +37,17 @@ public class UMLDiagram extends JPanel {
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         setLayout(new BorderLayout());
 
-        // Header with title and combo box
         JPanel headerPanel = new JPanel(new BorderLayout());
         JLabel headerLabel = new JLabel(title, SwingConstants.CENTER);
         headerLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
         headerPanel.add(headerLabel, BorderLayout.NORTH);
 
-        // Combo box to select a package/project
         packageComboBox = new JComboBox<>(packagesMap.keySet().toArray(new String[0]));
         packageComboBox.addActionListener(new PackageSelectionHandler());
         headerPanel.add(packageComboBox, BorderLayout.SOUTH);
 
         add(headerPanel, BorderLayout.NORTH);
 
-        // Initialize the default UML classes from the first package
         String firstPackage = packagesMap.keySet().iterator().next();
         this.umlClasses = packagesMap.get(firstPackage);
     }
@@ -281,7 +278,7 @@ public class UMLDiagram extends JPanel {
             String selectedPackage = (String) packageComboBox.getSelectedItem();
             if (selectedPackage != null) {
                 umlClasses = packagesMap.get(selectedPackage);
-                repaint(); // Redraw the diagram for the selected package
+                repaint(); 
             }
         }
     }

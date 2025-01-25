@@ -10,8 +10,8 @@ import java.util.List;
 public class UMLPackageDiagram extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    private ProjectDescriptor projectDescriptor; // Architecture globale du projet
-    private Map<String, Point> packagePositions; // Positions des packages sur le diagramme
+    private ProjectDescriptor projectDescriptor; 
+    private Map<String, Point> packagePositions;
 
     public UMLPackageDiagram(ProjectDescriptor projectDescriptor) {
         this.projectDescriptor = projectDescriptor;
@@ -30,9 +30,6 @@ public class UMLPackageDiagram extends JPanel {
         drawPackageRelationships(graphics);
     }
 
-    /**
-     * Positionne les packages sur le diagramme de manière circulaire.
-     */
     private void layoutPackages(Graphics2D graphics) {
         int centerX = getWidth() / 2;
         int centerY = getHeight() / 2;
@@ -51,7 +48,7 @@ public class UMLPackageDiagram extends JPanel {
             }
 
             double angle = i * angleStep;
-            int x = (int) (centerX + radius * Math.cos(angle)) - 75;  // Ajustement pour centrer le package
+            int x = (int) (centerX + radius * Math.cos(angle)) - 75;  
             int y = (int) (centerY + radius * Math.sin(angle)) - 50;
 
             packagePositions.put(packageName, new Point(x, y));
@@ -60,16 +57,13 @@ public class UMLPackageDiagram extends JPanel {
         }
     }
 
-    /**
-     * Dessine un package sur le diagramme UML.
-     */
     private void drawPackage(Graphics2D graphics, String packageName, List<ClassDescriptor> classes, Point position) {
         int width = 200;
         int height = 150;
         int x = position.x;
         int y = position.y;
 
-        graphics.setColor(new Color(240, 240, 255)); // Couleur de fond du package
+        graphics.setColor(new Color(240, 240, 255)); 
         graphics.fillRect(x, y, width, height);
         graphics.setColor(Color.BLACK);
         graphics.drawRect(x, y, width, height);
@@ -77,7 +71,6 @@ public class UMLPackageDiagram extends JPanel {
         graphics.setFont(new Font("SansSerif", Font.BOLD, 14));
         graphics.drawString(packageName, x + 10, y + 20);
 
-        // Dessiner les classes dans le package
         int classY = y + 30;
         for (ClassDescriptor classDescriptor : classes) {
             graphics.setFont(new Font("SansSerif", Font.PLAIN, 12));
@@ -86,9 +79,6 @@ public class UMLPackageDiagram extends JPanel {
         }
     }
 
-    /**
-     * Dessine les relations entre les packages.
-     */
     private void drawPackageRelationships(Graphics2D graphics) {
         for (PackageDescriptor packageDescriptor : projectDescriptor.getPackages()) {
             String packageName = packageDescriptor.getPackageName();
@@ -103,9 +93,6 @@ public class UMLPackageDiagram extends JPanel {
         }
     }
 
-    /**
-     * Trouve la position d'un package en fonction du nom de la classe utilisée.
-     */
     private Point findPackagePositionByClassName(String className) {
         for (Map.Entry<String, Point> entry : packagePositions.entrySet()) {
             if (className.contains(entry.getKey())) {
@@ -115,18 +102,12 @@ public class UMLPackageDiagram extends JPanel {
         return null;
     }
 
-    /**
-     * Dessine une ligne représentant une relation entre deux packages.
-     */
     private void drawRelationshipLine(Graphics2D graphics, Point from, Point to) {
         graphics.setColor(Color.BLACK);
-        graphics.drawLine(from.x + 100, from.y + 75, to.x + 100, to.y + 75); // Ligne centrée
-        drawArrow(graphics, from, to);  // Dessiner une flèche
+        graphics.drawLine(from.x + 100, from.y + 75, to.x + 100, to.y + 75); 
+        drawArrow(graphics, from, to); 
     }
-
-    /**
-     * Dessine une flèche entre deux points pour représenter une relation.
-     */
+    
     private void drawArrow(Graphics2D graphics, Point from, Point to) {
         int arrowSize = 10;
         double angle = Math.atan2(to.y - from.y, to.x - from.x);

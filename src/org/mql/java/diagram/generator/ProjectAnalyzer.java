@@ -22,8 +22,8 @@ public class ProjectAnalyzer {
         return traverseProjectFiles().stream()
                 .filter(file -> file.getName().endsWith(".java"))
                 .map(file -> {
-                    String fullClassName = generateFullClassName(file.toPath());  // Converti en Path
-                    System.out.println("Class found: " + fullClassName);  // Log pour débogage
+                    String fullClassName = generateFullClassName(file.toPath());  
+                    System.out.println("Class found: " + fullClassName);  
                     return new ClassDescriptor(fullClassName);
                 })
                 .collect(Collectors.toList());
@@ -35,10 +35,9 @@ public class ProjectAnalyzer {
 
         if (packageDescriptor != null) {
             List<ClassDescriptor> classDescriptors = packageDescriptor.getClasses();
-            // Pass these class descriptors to your diagram generation code
             System.out.println("Generating diagram for package: " + packageName);
             for (ClassDescriptor classDescriptor : classDescriptors) {
-                System.out.println(classDescriptor); // Debugging purpose
+                System.out.println(classDescriptor); 
             }
         } else {
             JOptionPane.showMessageDialog(null, this, "No classes found in the package: " + packageName, 0);
@@ -46,10 +45,8 @@ public class ProjectAnalyzer {
     }
 
     public ProjectDescriptor analyzeProject() {
-        // Simulate project analysis (this should include real analysis logic)
         ProjectDescriptor projectDescriptor = new ProjectDescriptor();
 
-        // Example: Add dummy packages and classes for demonstration
         PackageDescriptor package1 = new PackageDescriptor("com.example.package1", List.of(
             new ClassDescriptor("ClassA"),
             new ClassDescriptor("ClassB")
@@ -104,7 +101,7 @@ public class ProjectAnalyzer {
                         .filter(Files::isRegularFile)
                         .filter(file -> file.toString().endsWith(".java"))
                         .forEach(file -> {
-                            String className = generateFullClassName(file);  // Utiliser Path ici
+                            String className = generateFullClassName(file);
                             String classType = determineType(className);
                             switch (classType) {
                                 case "class":
@@ -153,9 +150,9 @@ public class ProjectAnalyzer {
             Files.walk(projectRoot)
                     .filter(Files::isRegularFile)
                     .map(Path::toFile)
-                    .filter(file -> file.getName().endsWith(".java"))  // Filtrage des fichiers Java
+                    .filter(file -> file.getName().endsWith(".java"))  
                     .forEach(file -> {
-                        System.out.println("Found file: " + file.getPath());  // Log pour débogage
+                        System.out.println("Found file: " + file.getPath());  
                         projectFiles.add(file);
                     });
         } catch (IOException e) {
@@ -172,7 +169,6 @@ public class ProjectAnalyzer {
         }
         String fullClassName = packagePath + "." + file.getFileName().toString().replace(".java", "");
 
-        // Supprimer le préfixe "src" du chemin complet
         if (fullClassName.startsWith("src.")) {
             fullClassName = fullClassName.substring(4);
         }

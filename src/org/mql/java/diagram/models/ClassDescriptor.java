@@ -5,7 +5,7 @@ import java.util.*;
 
 public class ClassDescriptor {
     private String name;
-    private String classPackageName; // Renommé pour éviter les conflits
+    private String classPackageName; 
     private String accessModifiers;
     private String parentClass;
     private List<String> fields;
@@ -29,7 +29,7 @@ public class ClassDescriptor {
         try {
             Class<?> cls = Class.forName(classPath);
             this.name = cls.getSimpleName();
-            this.classPackageName = cls.getPackageName(); // Récupère le nom du package directement
+            this.classPackageName = cls.getPackageName(); 
             this.accessModifiers = getAccessModifiers(cls);
             this.parentClass = getParentClass(cls);
             this.fields = getFieldDescriptors(cls);
@@ -42,12 +42,10 @@ public class ClassDescriptor {
         }
     }
 
-    // Nouvelle méthode corrigée pour retourner le nom du package
     public String getPackageName() {
-        return classPackageName; // Retourne directement le champ sans récursivité
+        return classPackageName; 
     }
 
-    // Méthodes existantes (inchangées)...
     private String getAccessModifiers(Class<?> cls) {
         return Modifier.toString(cls.getModifiers());
     }
@@ -84,7 +82,7 @@ public class ClassDescriptor {
         } else if (Modifier.isProtected(modifiers)) {
             return "#";
         } else {
-            return "~"; // default to package-private
+            return "~"; 
         }
     }
 

@@ -22,23 +22,23 @@ public class PackageDescriptor {
         this.enums = new HashSet<>();
         this.annotations = new HashSet<>();
         this.subPackages = new HashSet<>();
-        this.classes = new ArrayList<>(); // Initialize the list of ClassDescriptor objects
-        setClasses(classes); // Add classes from the provided list
+        this.classes = new ArrayList<>(); 
+        setClasses(classes);
     }
 
     public void addClass(ClassDescriptor classDescriptor) {
         classNames.add(classDescriptor.getClassName());
-        classes.add(classDescriptor); // Store the ClassDescriptor object
+        classes.add(classDescriptor);
     }
 
     public List<ClassDescriptor> getClasses() {
-        return classes; // Return the list of ClassDescriptor objects
+        return classes; 
     }
 
     public void setClasses(List<ClassDescriptor> classes) {
         for (ClassDescriptor classDescriptor : classes) {
             classNames.add(classDescriptor.getClassName());
-            this.classes.add(classDescriptor); // Store the ClassDescriptor object
+            this.classes.add(classDescriptor); 
         }
     }
 

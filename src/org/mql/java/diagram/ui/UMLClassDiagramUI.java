@@ -16,12 +16,10 @@ public class UMLClassDiagramUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // ComboBox for packages
         packageComboBox = new JComboBox<>(packages.toArray(new String[0]));
         packageComboBox.setPreferredSize(new Dimension(300, 30));
         add(packageComboBox, BorderLayout.NORTH);
 
-        // Button to generate class diagram
         generateButton = new JButton("Generate Class Diagram");
         add(generateButton, BorderLayout.SOUTH);
 
